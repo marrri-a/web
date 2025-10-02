@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Посты</h2>
+{% for p in posts %}
+  <div class="card">
+    <h3><a href="/posts/{{p.id}}/view">{{ p.title }}</a></h3>
+    <div>Автор: {{ users.get(p.authorId).login if users.get(p.authorId) else "unknown" }}</div>
+    <small>Создан: {{ p.createdAt }}</small>
+  </div>
+{% else %}
+  <p>Постов пока нет.</p>
+{% endfor %}
+{% endblock %}
