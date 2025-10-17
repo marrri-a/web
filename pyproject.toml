@@ -1,0 +1,19 @@
+[project]
+name = "blog-project"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "sqlalchemy",
+    "pydantic",
+]
+
+[tool.black]
+line-length = 88
+
+[tool.ruff]
+select = ["E", "F", "W"]
+ignore = ["E501"]
+
+[tool.mypy]
+strict = true
+
