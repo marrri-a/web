@@ -1,0 +1,41 @@
+blog-project/
+├── app/
+│   ├── __init__.py
+│   ├── main.py
+│   ├── models.py
+│   ├── routes.py
+│   ├── storage.py
+│   ├── pages.py
+│   ├── database.py
+│   ├── auth.py
+│   ├── dependencies.py
+│   ├── config.py
+│   ├── crud.py
+│   └── templates/
+│       ├── base.html
+│       ├── index.html
+│       ├── post_view.html
+│       ├── post_form.html
+│       ├── login.html
+│       ├── register.html
+│       └── profile.html
+├── tests/
+│   ├── __init__.py
+│   ├── test_auth.py
+│   ├── test_crud.py
+│   └── test_routes.py
+├── migrations/
+│   ├── versions/
+│   └── alembic.ini
+├── docker/
+│   ├── Dockerfile
+│   └── docker-compose.yml
+├── data.json
+├── database.sql
+├── requirements.txt
+├── pyproject.toml
+├── .pre-commit-config.yaml
+├── .env.example
+├── .gitignore
+├── README.md
+└── er_diagram.md

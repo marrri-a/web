@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ "Создать пост" if mode=="create" else "Редактировать пост" }}</h2>
+<form method="post">
+  <label>Автор</label>
+  <select name="authorId" required>
+    {% for u in users %}
+      <option value="{{ u.id }}"
+        {% if post is defined and post and u.id == post.authorId %}selected{% endif %}>
+        {{ u.login }} (id={{ u.id }})
+      </option>
+    {% endfor %}
+  </select>
+
+  <label>Заголовок</label>
+  <input name="title"
+         value="{{ (post.title if post is defined and post else '') }}"
+         required/>
+
+  <label>Текст</label>
+  <textarea name="content" rows="10" required>{{ (post.content if post is defined and post else '') }}</textarea>
+
+  <p class="row">
+    <button type="submit">Сохранить</button>
+    <a href="/">Отмена</a>
+  </p>
+</form>
+{% endblock %}
+
+
