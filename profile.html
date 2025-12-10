@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-header">
+        {% if user.avatar_url %}
+        <img src="{{ user.avatar_url }}" alt="{{ user.login }}" class="avatar">
+        {% endif %}
+        <h2>{{ user.full_name or user.login }}</h2>
+        <p class="username">@{{ user.login }}</p>
+        <p class="email">{{ user.email }}</p>
+        {% if user.bio %}
+        <p class="bio">{{ user.bio }}</p>
+        {% endif %}
+    </div>
+    
+    <div class="profile-stats">
+        <div class="stat">
+            <span class="stat-number">{{ posts|length }}</span>
+            <span class="stat-label">Posts</span>
+        </div>
+        <div class="stat">
+            <span class="stat-number">{{ followers_count }}</span>
+            <span class="stat-label">Followers</span>
+        </div>
+        <div class="stat">
+            <span class="stat-number">{{ following_count }}</span>
+            <span class="stat-label">Following</span>
+        </div>
+    </div>
+    
+    {% if is_own_profile %}
+    <div class="profile-actions">
+        <a href="/profile/edit" class="btn btn-secondary">Edit Profile</a>
+        <a href="/posts/create" class="btn btn-primary">New Post</a>
+    </div>
+    {% else %}
+    <div class="profile-actions">
+        {% if is_following %}
+        <form method="post" action="/api/users/{{ user.id }}/follow" style="display: inline;">
+            <button type="submit" class="btn btn-secondary">Unfollow</button>
+        </form>
+        {% else %}
+        <form method="post" action="/api/users/{{ user.id }}/follow" style="display: inline;">
+            <button type="submit" class="btn btn-primary">Follow</button>
+        </form>
+        {% endif %}
+    </div>
+    {% endif %}
+    
+    <div class="user-posts">
+        <h3>Posts</h3>
+        {% if posts %}
+            {% for post in posts %}
+            <div class="post-card">
+                <h4><a href="/posts/{{ post.id }}">{{ post.title }}</a></h4>
+                <p class="post-meta">
+                    {{ post.created_at.strftime('%Y-%m-%d %H:%M') }}
+                    • {{ post.comments_count }} comments
+                    • {{ post.likes_count }} likes
+                </p>
+                <p class="post-excerpt">{{ post.summary or post.content[:200] }}...</p>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>No posts yet.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

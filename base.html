@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Blog Platform{% endblock %}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="/" class="navbar-brand">Blog</a>
+            <div class="navbar-menu">
+                <a href="/" class="navbar-item">Home</a>
+                <a href="/posts" class="navbar-item">Posts</a>
+                <a href="/categories" class="navbar-item">Categories</a>
+                
+                {% if current_user %}
+                    <a href="/profile" class="navbar-item">Profile</a>
+                    <a href="/posts/create" class="navbar-item">New Post</a>
+                    <a href="/me/favorites" class="navbar-item">Favorites</a>
+                    <a href="/me/feed" class="navbar-item">Feed</a>
+                    {% if current_user.is_admin %}
+                        <a href="/admin" class="navbar-item">Admin</a>
+                    {% endif %}
+                    <form action="/api/auth/logout" method="post" class="navbar-item">
+                        <button type="submit" class="btn btn-link">Logout</button>
+                    </form>
+                {% else %}
+                    <a href="/login" class="navbar-item">Login</a>
+                    <a href="/register" class="navbar-item">Register</a>
+                {% endif %}
+            </div>
+            
+            <form action="/search" method="get" class="navbar-search">
+                <input type="text" name="q" placeholder="Search posts..." value="{{ search_query or '' }}">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for message in messages %}
+                        <div class="flash-message">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Blog Platform. All rights reserved.</p>
+            <p>
+                <a href="/api/docs">API Docs</a> |
+                <a href="/about">About</a> |
+                <a href="/contact">Contact</a>
+            </p>
+        </div>
+    </footer>
+
+    <script src="/static/js/main.js"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>
